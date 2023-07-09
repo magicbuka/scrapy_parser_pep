@@ -19,7 +19,7 @@ class PepSpider(scrapy.Spider):
 
     def parse_pep(self, response):
         pep = re.search(
-            r'PEP (?P<number>\d+) – (?P<name>.*)', 
+            r'PEP (?P<number>\d+) – (?P<name>.*)',
             response.css('h1.page-title::text').get()
         )
         data = {
