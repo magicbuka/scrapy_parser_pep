@@ -21,23 +21,6 @@ class PepSpider(scrapy.Spider):
             r'PEP (?P<number>\d+) – (?P<name>.*)',
             response.css('h1.page-title::text').get()
         )
-        '''
-        data = {
-            'number': pep.group('number'),
-            'name': pep.group('name'),
-            'status': response.css(
-                'dt:contains("Status") + dd abbr::text'
-            ).get()
-        }
-        
-        data = dict(
-            number=pep.group('number'),
-            name=pep.group('name'),
-            status=response.css(
-                'dt:contains("Status") + dd abbr::text'
-            ).get()
-        )
-        '''
         yield PepParseItem(dict(
             number=pep.group('number'),
             name=pep.group('name'),
