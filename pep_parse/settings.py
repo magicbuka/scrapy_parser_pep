@@ -4,9 +4,9 @@ BOT_NAME = 'pep_parse'
 
 PEP_DOMAIN = 'peps.python.org'
 ALLOWED_DOMAINS = [PEP_DOMAIN, ]
-URLS = [f'https://{PEP_DOMAIN}/']
+URLS = [f'https://{url}/' for url in ALLOWED_DOMAINS]
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).parent.parent
 RESULTS_DIR = 'results'
 FILE_NAME = 'status_summary_{datetime}.csv'
 

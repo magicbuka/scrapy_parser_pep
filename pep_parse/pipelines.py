@@ -29,11 +29,14 @@ class PepParsePipeline:
                 datetime=dt.now().strftime(DATETIME_FORMAT)
             ),
             mode='w',
-            encoding='utf-8',
-            newline=''
+            encoding='utf-8'
         ) as file:
-            csv.writer(file).writerows([
-                ('Статус', 'Количество'),
-                *(self.status_counts.items()),
-                ['Total', sum(self.status_counts.values())]
+            csv.writer(
+                file,
+                dialect=csv.unix_dialect,
+                quoting=csv.QUOTE_NONE
+                ).writerows([
+                    ('Статус', 'Количество'),
+                    *(self.status_counts.items()),
+                    ['Итого', sum(self.status_counts.values())]
             ])

@@ -11,10 +11,9 @@ class PepSpider(scrapy.Spider):
     start_urls = URLS
 
     def parse(self, response):
-        all_peps = response.css(
+        for pep_link in response.css(
             'section[id=numerical-index] tbody a::attr(href)'
-        )
-        for pep_link in all_peps:
+        ):
             yield response.follow(pep_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
@@ -22,6 +21,7 @@ class PepSpider(scrapy.Spider):
             r'PEP (?P<number>\d+) – (?P<name>.*)',
             response.css('h1.page-title::text').get()
         )
+        '''
         data = {
             'number': pep.group('number'),
             'name': pep.group('name'),
@@ -29,4 +29,19 @@ class PepSpider(scrapy.Spider):
                 'dt:contains("Status") + dd abbr::text'
             ).get()
         }
-        yield PepParseItem(data)
+        
+        data = dict(
+            number=pep.group('number'),
+            name=pep.group('name'),
+            status=response.css(
+                'dt:contains("Status") + dd abbr::text'
+            ).get()
+        )
+        '''
+        yield PepParseItem(dict(
+            number=pep.group('number'),
+            name=pep.group('name'),
+            status=response.css(
+                'dt:contains("Status") + dd abbr::text'
+            ).get()
+        ))
